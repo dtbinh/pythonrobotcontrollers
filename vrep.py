@@ -1148,7 +1148,7 @@ def simxGetObjectVelocity(clientID, objectHandle, operationMode):
     '''
     linearVel  = (c_float*3)()
     angularVel = (c_float*3)()
-    ret = c_ReadForceSensor(clientID, objectHandle, linearVel, angularVel, operationMode)
+    ret = c_GetObjectVelocity(clientID, objectHandle, linearVel, angularVel, operationMode)
     arr1 = []
     for i in range(3):
         arr1.append(linearVel[i])	
