@@ -1,1 +1,9 @@
 VREP CONTROLLER FOR HTML5RUI BACKEND IN PYTHON
+
+Instructions:
+
+1.Open VREP.
+2.Create scene with robot (khepera_noplugin.ttm, for now).
+3.Add this line to the beginning of the robot lua script (already there in khepera_noplugin.ttm):
+	simExtRemoteApiStart(20001)
+4.Run controller.py: python controller.py
