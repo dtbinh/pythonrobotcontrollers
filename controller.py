@@ -107,6 +107,17 @@ def setSpeeds(x, y, angleModel, lockMode):
 
 	return velizq, velder, targetAlpha==joystickAlpha,
 
+def geolocationTest(i):
+	i = i+1
+	if (i==100):
+		geolocation = data.find_one({"_id": 2})
+		latitude = float(geolocation['latitude'])
+		print(latitude)
+		data.update({"item": "robotGeolocation"}, {"$set":{"latitude": latitude+0.0000001}})
+		i=0
+	return i
+			
+	
 
 signal.signal(signal.SIGINT, signal_handler)
 signal.signal(signal.SIGTERM, signal_handler)
@@ -143,9 +154,9 @@ if clientID!=-1:
 		(err, orientation) = vrep.simxGetObjectOrientation(clientID,robot,-1,vrep.simx_opmode_oneshot)
 		angleModel[1]= orientation[1]
 	angleModel[2] = abs(angleModel[1])
-
+	i=0
 	while clientID!=-1:	
-		joystick = data.find_one()
+		joystick = data.find_one({"_id": 0})
 		x = float(joystick['x'])
 		y = float(joystick['y'])
 		lockMode = str(joystick['mode'])
@@ -172,6 +183,7 @@ if clientID!=-1:
 		if (angularSpeed!= oldAngularSpeed):			
 			data.update({"item": "robotData"}, {"$set":{"angularSpeed": {"dAlpha": round(angularSpeed[0],2), "dBeta": round(angularSpeed[1],2), "dGamma": round(angularSpeed[2],2)}}})
 			oldAngularSpeed = angularSpeed
+		i = geolocationTest(i)
 		#Check connection
 		if vrep.simxGetConnectionId(clientID)==-1:
 			count += 1
